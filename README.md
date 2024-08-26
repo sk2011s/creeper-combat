@@ -4,6 +4,12 @@ Made from my good friend Isme
 ### How To Run:
 Just Run **isme combat.exe** file and play
 <br>
-<hr>
+---
+## My Ideas:
+[✖] Add Energy Upgrad<br>
+[✖] Add PPT Upgrade<br>
+[✖] Add Leveling System<br>
+<br>
+---
 <br>
 <strong>Created By sk2011se With</strong> ❤
