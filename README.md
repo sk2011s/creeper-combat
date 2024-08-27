@@ -6,8 +6,8 @@ Just Run **isme combat.exe** file and play
 <br>
 ---
 ## My Ideas:
-[✖] Add Energy Upgrad<br>
-[✖] Add PPT Upgrade<br>
+[✔] Add Energy Upgrad<br>
+[✔] Add PPT Upgrade<br>
 [✖] Add Leveling System<br>
 <br>
 ---
