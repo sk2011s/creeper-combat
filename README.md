@@ -2,7 +2,7 @@
 Made from my good friend Isme
 <br>
 ### How To Run:
-Just Run **isme combat.exe** file and play
+Just Run **friend combat.exe** file and play
 <br>
 ---
 ## My Ideas:
