@@ -33,16 +33,14 @@ global profitpc
 profitpc = int(savel.get("profitpc", 1))
 
 root = tk.Tk()
-root.title("friend")
-root.minsize(300, 400)
-info = tk.Tk()
-info.title("friend-info")
+root.title("isyou")
+root.minsize(300, 450)
 ppmup = tk.Tk()
-ppmup.title("friend-ppmup")
+ppmup.title("isyou-ppmup")
 ppcup = tk.Tk()
-ppcup.title("friend-ppcup")
+ppcup.title("isyou-meup")
 meup = tk.Tk()
-meup.title("friend-ppcup")
+meup.title("isyou-ppcup")
 
 
 def loop_1sec():
@@ -54,7 +52,7 @@ def loop_1sec():
         energy += 1
 
     mony += round(profitph / 60, 0)
-    info.after(1000, loop_1sec)
+    root.after(1000, loop_1sec)
 
 
 loop_1sec()
@@ -66,19 +64,19 @@ def setinfo(mony, profitph):
     global profitpc
 
     if not hasattr(setinfo, "initialized"):
-        setinfo.profitpcl = tk.Label(info, text="")
+        setinfo.profitpcl = tk.Label(root, text="")
         setinfo.profitpcl.pack()
-        setinfo.profitphl = tk.Label(info, text="")
+        setinfo.profitphl = tk.Label(root, text="")
         setinfo.profitphl.pack()
-        setinfo.monyl = tk.Label(info, text="")
+        setinfo.monyl = tk.Label(root, text="")
         setinfo.monyl.pack()
-        setinfo.energyl = tk.Label(info, text="")
+        setinfo.energyl = tk.Label(root, text="")
         setinfo.energyl.pack()
         setinfo.initialized = True
 
-    setinfo.profitpcl.config(text=f"friend per tap \n{profitpc}")
-    setinfo.profitphl.config(text=f"friend per min: \n{profitph}")
-    setinfo.monyl.config(text=f"friend: {round(mony)}$")
+    setinfo.profitpcl.config(text=f"isyou per tap \n{profitpc}")
+    setinfo.profitphl.config(text=f"isyou per min: \n{profitph}")
+    setinfo.monyl.config(text=f"isyou: {round(mony)}$")
     setinfo.energyl.config(text=f"energy: {energy}/{maxenergy}")
 
 
@@ -93,11 +91,11 @@ def buy_upgrade(listbox, attribute, label):
 
 
 def buyppmup():
-    buy_upgrade(listppmup, "profitph", "friend per min + ")
+    buy_upgrade(listppmup, "profitph", "isyou per min + ")
 
 
 def buyppcup():
-    buy_upgrade(listppcup, "profitpc", "friend per click + ")
+    buy_upgrade(listppcup, "profitpc", "isyou per click + ")
 
 
 def buymeup():
@@ -113,15 +111,16 @@ def center_window(width=300, height=200):
     y = (screen_height / 2) - (height / 2)
     root.geometry("%dx%d+%d+%d" % (width, height, x, y))
 
-    info.geometry("%dx%d+%d+%d" % (width, height, x, y - 200))
-
     ppmup.geometry("%dx%d+%d+%d" % (width, height, x + 300, y))
     ppcup.geometry("%dx%d+%d+%d" % (width, height, x - 300, y))
 
-    meup.geometry("%dx%d+%d+%d" % (width, height, x, y - 430))
+    meup.geometry("%dx%d+%d+%d" % (width, height, x, y - 280))
 
     del x, y
 
+def link_page():
+    print(root.geometry)
+    link_page()
 
 def hamsterdrop():
     global energy
@@ -140,7 +139,7 @@ def loadppcup():
             for upgrades in upgrades:
                 ups = upgrades.split(",")
                 listppcup.insert(
-                    tk.END, f"{ups[0]},{ups[1]}$,friend per click + {ups[2]}".strip()
+                    tk.END, f"{ups[0]},{ups[1]}$,isyou per click + {ups[2]}".strip()
                 )
     except FileNotFoundError:
         messagebox.showerror("Error", "File not found: res/list/ppcup.list")
@@ -154,7 +153,7 @@ def loadppmup():
             for upgrades in upgrades:
                 ups = upgrades.split(",")
                 listppmup.insert(
-                    tk.END, f"{ups[0]},{ups[1]}$,friend per min + {ups[2]}".strip()
+                    tk.END, f"{ups[0]},{ups[1]}$,isyou per min + {ups[2]}".strip()
                 )
     except FileNotFoundError:
         messagebox.showerror("Error", "File not found: res/list/ppmup.list")
@@ -194,7 +193,7 @@ loadmeup()
 
 def updater():
     setinfo(mony, profitph)
-    info.after(10, updater)
+    root.after(10, updater)
 
 
 updater()
@@ -210,7 +209,6 @@ hamster.pack()
 # hamster.place_configure(y=100,x=60)
 def quit():
     root.destroy()
-    info.destroy()
     ppmup.destroy()
     ppcup.destroy()
     meup.destroy()
