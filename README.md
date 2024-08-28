@@ -1,4 +1,7 @@
 # isme combat
+
+**Warning: No money is to be given to anyone. This program is not a copy of Hamster Kombat and they only have the same gameplay!**
+
 Made from my good friend Isme
 <br>
 ### How To Run:
