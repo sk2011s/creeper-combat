@@ -1,19 +1,36 @@
 import tkinter as tk
+from tkinter import messagebox
 from PIL import Image, ImageTk
-from res.lib.hamsterclick import hamsterclick
+from res.lib import (
+    hamsterclick,
+    save,
+    sleep_mony,
+)
 
-global energy
-energy = 1000
-with open("yk874bt968ew7t96857i98.exe", "r") as save:
-    savel = save.readlines()
-    global maxenergy
-    maxenergy = int(savel[1])
+from datetime import datetime
+
+savel = save.load()
+
+if len(savel) >= 5:
     global mony
-    mony = int(savel[3])
-    global profitph
-    profitph = int(savel[5])
-    global profitpc
-    profitpc = int(savel[7])
+    close_time = savel["close_time"]
+    mony = int(
+        int(savel["mony"]) + sleep_mony.sleep_mony(close_time, int(savel["profitph"]))
+    )
+    del close_time
+else:
+    mony = int(savel.get("mony", 0))
+
+
+
+global maxenergy
+maxenergy = int(savel.get("maxenergy", 1000))
+global energy
+energy = maxenergy
+global profitph
+profitph = int(savel.get("profitph", 0))
+global profitpc
+profitpc = int(savel.get("profitpc", 1))
 
 root = tk.Tk()
 root.title("friend")
@@ -36,7 +53,7 @@ def loop_1sec():
     if energy < maxenergy:
         energy += 1
 
-    mony += round(profitph / 64, 0)
+    mony += round(profitph / 60, 0)
     info.after(1000, loop_1sec)
 
 
@@ -44,51 +61,47 @@ loop_1sec()
 
 
 def setinfo(mony, profitph):
-
     global energy
     global maxenergy
     global profitpc
 
-    for widget in info.winfo_children():
-        widget.destroy()
-    profitpcl = tk.Label(info, text=f"friend per tap \n{profitpc}")
-    profitpcl.pack()
-    # profitpcl.place_configure(x=10)
-    profitphl = tk.Label(info, text=f"friend per min: \n{profitph}")
-    profitphl.pack()
-    # profitphl.place_configure(x=160.5)
-    monyl = tk.Label(info, text=f"friend: {round(mony)}$")
-    monyl.pack()
-    # monyl.place_configure(x=160.5,y=50)
-    energyl = tk.Label(info, text=f"energy: {energy}/{maxenergy}")
-    energyl.pack()
-    # energyl.place_configure(x=10,y=410)
+    if not hasattr(setinfo, "initialized"):
+        setinfo.profitpcl = tk.Label(info, text="")
+        setinfo.profitpcl.pack()
+        setinfo.profitphl = tk.Label(info, text="")
+        setinfo.profitphl.pack()
+        setinfo.monyl = tk.Label(info, text="")
+        setinfo.monyl.pack()
+        setinfo.energyl = tk.Label(info, text="")
+        setinfo.energyl.pack()
+        setinfo.initialized = True
+
+    setinfo.profitpcl.config(text=f"friend per tap \n{profitpc}")
+    setinfo.profitphl.config(text=f"friend per min: \n{profitph}")
+    setinfo.monyl.config(text=f"friend: {round(mony)}$")
+    setinfo.energyl.config(text=f"energy: {energy}/{maxenergy}")
+
+
+def buy_upgrade(listbox, attribute, label):
+    global mony
+    selected = str(listbox.get(tk.ACTIVE)).split(",")
+    cost = int(selected[1].replace("$", ""))
+    if cost <= mony:
+        increment = int(selected[2].replace(label, ""))
+        globals()[attribute] += increment
+        mony -= cost
 
 
 def buyppmup():
-    global mony
-    global profitph
-    selected = str(listppmup.get(tk.ACTIVE)).split(",")
-    if int(selected[1].replace("$", "")) <= mony:
-        profitph = profitph + int((selected[2].replace("friend per min + ", "")))
-        mony = mony - int(selected[1].replace("$", ""))
+    buy_upgrade(listppmup, "profitph", "friend per min + ")
 
 
 def buyppcup():
-    global mony
-    global profitpc
-    selected = str(listppcup.get(tk.ACTIVE)).split(",")
-    if int(selected[1].replace("$", "")) <= mony:
-        profitpc = profitpc + int((selected[2].replace("friend per click + ", "")))
-        mony = mony - int(selected[1].replace("$", ""))
+    buy_upgrade(listppcup, "profitpc", "friend per click + ")
 
 
 def buymeup():
-    global mony
-    global maxenergy
-    selected = str(listmeup.get(tk.ACTIVE)).split(",")
-    if int(selected[1].replace("$", "")) <= mony:
-        maxenergy = maxenergy + int((selected[2].replace("max energy + ", "")))
+    buy_upgrade(listmeup, "maxenergy", "max energy + ")
 
 
 def center_window(width=300, height=200):
@@ -107,10 +120,12 @@ def center_window(width=300, height=200):
 
     meup.geometry("%dx%d+%d+%d" % (width, height, x, y - 430))
 
+    del x, y
+
 
 def hamsterdrop():
     global energy
-    if hamsterclick(energy):
+    if hamsterclick.hamstercanclick(energy):
         global mony
         global profitpc
 
@@ -119,31 +134,45 @@ def hamsterdrop():
 
 
 def loadppcup():
-    with open("res/list/ppcup.list", "r") as upglist:
-        upgrades = upglist.readlines()
-        for upgrades in upgrades:
-            ups = upgrades.split(",")
-            listppcup.insert(
-                tk.END, f"{ups[0]},{ups[1]}$,friend per click + {ups[2]}".strip()
-            )
+    try:
+        with open("res/list/ppcup.list", "r") as upglist:
+            upgrades = upglist.readlines()
+            for upgrades in upgrades:
+                ups = upgrades.split(",")
+                listppcup.insert(
+                    tk.END, f"{ups[0]},{ups[1]}$,friend per click + {ups[2]}".strip()
+                )
+    except FileNotFoundError:
+        messagebox.showerror("Error", "File not found: res/list/ppcup.list")
+        quit()
 
 
 def loadppmup():
-    with open("res/list/ppmup.list", "r") as upglist:
-        upgrades = upglist.readlines()
-        for upgrades in upgrades:
-            ups = upgrades.split(",")
-            listppmup.insert(
-                tk.END, f"{ups[0]},{ups[1]}$,friend per min + {ups[2]}".strip()
-            )
+    try:
+        with open("res/list/ppmup.list", "r") as upglist:
+            upgrades = upglist.readlines()
+            for upgrades in upgrades:
+                ups = upgrades.split(",")
+                listppmup.insert(
+                    tk.END, f"{ups[0]},{ups[1]}$,friend per min + {ups[2]}".strip()
+                )
+    except FileNotFoundError:
+        messagebox.showerror("Error", "File not found: res/list/ppmup.list")
+        quit()
 
 
 def loadmeup():
-    with open("res/list/meup.list", "r") as upglist:
-        upgrades = upglist.readlines()
-        for upgrades in upgrades:
-            ups = upgrades.split(",")
-            listmeup.insert(tk.END, f"{ups[0]},{ups[1]}$,max energy + {ups[2]}".strip())
+    try:
+        with open("res/list/meup.list", "r") as upglist:
+            upgrades = upglist.readlines()
+            for upgrades in upgrades:
+                ups = upgrades.split(",")
+                listmeup.insert(
+                    tk.END, f"{ups[0]},{ups[1]}$,max energy + {ups[2]}".strip()
+                )
+    except FileNotFoundError:
+        messagebox.showerror("Error", "File not found: res/list/meup.list")
+        quit()
 
 
 listppmup = tk.Listbox(ppmup, width=100)
@@ -192,14 +221,4 @@ tk.Button(root, text="quit", command=lambda: quit()).pack()
 center_window()
 tk.mainloop()
 
-with open("yk874bt968ew7t96857i98.exe", "w") as file:
-    file.write(
-        f"""maxenergy =
-{maxenergy}
-mony =
-{int(round(mony))}
-profutph = 
-{profitph}
-profitpc = 
-{profitpc}"""
-    )
+save.save(maxenergy, mony, profitph, profitpc, datetime.now().isoformat())
