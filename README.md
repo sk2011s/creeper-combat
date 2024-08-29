@@ -5,6 +5,9 @@
 Made from my good friend Isme
 <br>
 ### How To Run:
+
+for recover your saves run **save recover.exe** file
+<br>
 Just Run **friend combat.exe** file and play
 <br>
 ---
