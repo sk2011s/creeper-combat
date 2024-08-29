@@ -1,4 +1,4 @@
-# isme combat
+# isyou combat
 
 **Warning: No money is to be given to anyone. This program is not a copy of Hamster combat and they only have the same gameplay!**
 
