@@ -33,14 +33,14 @@ global profitpc
 profitpc = int(savel.get("profitpc", 1))
 
 root = tk.Tk()
-root.title("isyou")
+root.title("creeper combat")
 root.minsize(300, 450)
 ppmup = tk.Tk()
-ppmup.title("isyou-ppmup")
+ppmup.title("creeper-ppmup")
 ppcup = tk.Tk()
-ppcup.title("isyou-meup")
+ppcup.title("creeper-meup")
 meup = tk.Tk()
-meup.title("isyou-ppcup")
+meup.title("creeper-ppcup")
 
 
 def loop_1sec():
@@ -74,9 +74,9 @@ def setinfo(mony, profitph):
         setinfo.energyl.pack()
         setinfo.initialized = True
 
-    setinfo.profitpcl.config(text=f"isyou per tap \n{profitpc}")
-    setinfo.profitphl.config(text=f"isyou per min: \n{profitph}")
-    setinfo.monyl.config(text=f"isyou: {round(mony)}$")
+    setinfo.profitpcl.config(text=f"creeper per tap \n{profitpc}")
+    setinfo.profitphl.config(text=f"creeper per min: \n{profitph}")
+    setinfo.monyl.config(text=f"creeper: {round(mony)}$")
     setinfo.energyl.config(text=f"energy: {energy}/{maxenergy}")
 
 
@@ -91,11 +91,11 @@ def buy_upgrade(listbox, attribute, label):
 
 
 def buyppmup():
-    buy_upgrade(listppmup, "profitph", "isyou per min + ")
+    buy_upgrade(listppmup, "profitph", "creeper per min + ")
 
 
 def buyppcup():
-    buy_upgrade(listppcup, "profitpc", "isyou per click + ")
+    buy_upgrade(listppcup, "profitpc", "creeper per click + ")
 
 
 def buymeup():
@@ -139,7 +139,7 @@ def loadppcup():
             for upgrades in upgrades:
                 ups = upgrades.split(",")
                 listppcup.insert(
-                    tk.END, f"{ups[0]},{ups[1]}$,isyou per click + {ups[2]}".strip()
+                    tk.END, f"{ups[0]},{ups[1]}$,creeper per click + {ups[2]}".strip()
                 )
     except FileNotFoundError:
         messagebox.showerror("Error", "File not found: res/list/ppcup.list")
@@ -153,7 +153,7 @@ def loadppmup():
             for upgrades in upgrades:
                 ups = upgrades.split(",")
                 listppmup.insert(
-                    tk.END, f"{ups[0]},{ups[1]}$,isyou per min + {ups[2]}".strip()
+                    tk.END, f"{ups[0]},{ups[1]}$,creeper per min + {ups[2]}".strip()
                 )
     except FileNotFoundError:
         messagebox.showerror("Error", "File not found: res/list/ppmup.list")
