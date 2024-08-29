@@ -3,7 +3,7 @@
 **Warning: No money is to be given to anyone. This program is not a copy of Hamster combat and they only have the same gameplay!**
 
 <br>
-###How To Run:
+<h3>How To Run:</h3>
 
 for recover your saves run **save recover.exe** file
 <br>
