@@ -11,7 +11,7 @@ Just Run **creeper combat.exe** file and play
 <br>
 ---
 ## My Ideas:
-[✔] Add Energy Upgrad<br>
+[✔] Add Energy Upgrade<br>
 [✔] Add PPT Upgrade<br>
 [✖] Add Leveling System<br>
 <br>
